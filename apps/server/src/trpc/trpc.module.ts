@@ -6,4 +6,4 @@ import { TrpcService } from '@server/trpc/trpc.service';
   imports: [],
   providers: [TrpcService, TrpcRouter],
 })
-export class TrpcModule {}
+export class TrpcModule { }

@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+  password  String
+  image     String?
+  token    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  TennisMatch  Match[] @relation("Player1")
+  TennisMatch1 Match[] @relation("Player2")
+  DoubleMatch  DoubleMatch[] @relation("Player1_team1")
+  DoubleMatch1 DoubleMatch[] @relation("Player2_team1")
+  DoubleMatch2 DoubleMatch[] @relation("Player1_team2")
+  DoubleMatch3 DoubleMatch[] @relation("Player2_team2")
+}
+
+model Match{
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  court     String   @default("Grind")
+  player1   User     @relation("Player1", fields: [player1Id], references: [id])
+  player1Id Int
+  player2   User     @relation("Player2", fields: [player2Id], references: [id])
+  player2Id Int
+  score     Json
+  seasonId  Int
+  Season    Season   @relation(fields: [seasonId], references: [id])
+}
+
+model DoubleMatch{
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  court     String   @default("Grind")
+  player1_team1   User     @relation("Player1_team1", fields: [player1Id_team1], references: [id])
+  player1Id_team1 Int
+  player2_team1   User     @relation("Player2_team1", fields: [player2Id_team1], references: [id])
+  player2Id_team1 Int
+  player1_team2   User     @relation("Player1_team2", fields: [player1Id_team2], references: [id])
+  player1Id_team2 Int
+  player2_team2   User     @relation("Player2_team2", fields: [player2Id_team2], references: [id])
+  player2Id_team2 Int
+
+  score     Json
+  seasonId  Int
+  Season    Season   @relation(fields: [seasonId], references: [id])
+}
+
+model Season {
+  id          Int           @id @default(autoincrement())
+  year        Int
+  Match       Match[]
+  DoubleMatch DoubleMatch[]
+}
+
+model Event {
+  id       Int      @id @default(autoincrement())
+  date     DateTime
+  title    String
+  Location String   @default("Amicitia, Lokeren")
+}

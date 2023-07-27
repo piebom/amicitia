@@ -3,9 +3,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TrpcModule } from '@server/trpc/trpc.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(), TrpcModule],
+  imports: [ConfigModule.forRoot(), TrpcModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })
