@@ -15,4 +15,10 @@ export class UsersService {
             }
         });
     }
+
+    async getAllUsers() {
+        const users = await this.prisma.user.findMany();
+        // only return the id and name
+        return users.map(({ id, name }) => ({ id, name }));
+    }
 }

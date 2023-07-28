@@ -11,7 +11,7 @@ type Props = {}
 const items = [
     {
         title: "Matches",
-        href: "/",
+        href: "/matches",
     },
     {
         title: "Ranking",
